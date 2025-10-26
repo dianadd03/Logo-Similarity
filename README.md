@@ -24,24 +24,24 @@ The pipeline consists of four main stages, each handled by a dedicated script:
 
 ## How It Works
 
-### 1.Logo Extraction
+### 1. Logo Extraction
 - Each website URL is scanned for likely logo candidates using:
   - `<meta property="og:image">`
   - `<link rel="icon">`, `<link rel="apple-touch-icon">`
   - `<img>` tags containing “logo” or “brand” in the `alt` or `src` attributes.
 - The first valid image is downloaded and stored in `logos_downloaded/`.
 
-### 2️.Validation
+### 2️. Validation
 `inspect_logos.py` checks that each file is a valid image (PNG, JPG, SVG, ICO, etc.) using Pillow (`PIL.Image.open`).  
 Invalid or corrupted images are logged for review.
 
-### 3️.Perceptual Hashing & Grouping
+### 3️. Perceptual Hashing & Grouping
 - Each image is converted to grayscale and resized to a standard resolution.
 - The **pHash** algorithm generates a 64-bit fingerprint for visual structure.
 - Logos with **Hamming distance ≤ 8** between hashes are grouped together.
 - The result is a list of **groups of visually similar logos**.
 
-### 4️.Data Output
+### 4️. Data Output
 All results are exported as CSVs:
 - `logos_found.csv` — domains and logo URLs
 - `logo_groups.csv` — final logo clusters and hash values
